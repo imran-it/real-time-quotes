@@ -1,0 +1,7 @@
+export const CHANGE_EURUSD = 'CHANGE_EURUSD';
+export const CHANGE_GBPUSD = 'CHANGE_GBPUSD';
+export const CHANGE_USDJPY = 'CHANGE_USDJPY';
+export const CHANGE_USDCHF = 'CHANGE_USDCHF';
+export const CHANGE_USDCAD = 'CHANGE_USDCAD';
+export const CHANGE_AUDUSD = 'CHANGE_AUDUSD';
+export const CHANGE_GOLD = 'CHANGE_GOLD';
