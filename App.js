@@ -1,31 +1,26 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import { MainState } from "./src/context/MainState";
 import Quotes from "./src/components/Quotes";
+import NavBar from "./src/components/NavBar";
+import Constants from "expo-constants";
 
 export default function App() {
-  // const [state, setState] = useState();
-  //
-  // useEffect(() => {
-  //   const socket = io('https://qrtm1.ifxid.com:8443');
-  //
-  //   socket.on('connect', () => {
-  //     socket.emit('subscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
-  //   })
-  //
-  //   socket.on('quotes', (data) => {
-  //     setState(data)
-  //   })
-  //
-  //   return () => {
-  //     socket.on('connect', () => {
-  //       socket.emit('unsubscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
-  //     })
-  //   }
-  // })
+  function MyStatusBar({ backgroundColor, ...props }) {
+    return (
+      <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+        <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+      </View>
+    );
+  }
 
   return (
     <MainState>
+      <MyStatusBar
+        backgroundColor={Platform.OS === 'ios' ? '#fff' : 'grey'}
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+      />
+      <NavBar title='Real time quotes'/>
       <Quotes/>
     </MainState>
   );
