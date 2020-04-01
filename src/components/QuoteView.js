@@ -6,10 +6,10 @@ import { AntDesign } from "@expo/vector-icons";
 const QuoteView = ({currency, deviceWidth}) => {
   return (
     <View style={styles.tableName}>
-      <Text style={{...styles.pair, ...styles.common, width: deviceWidth * 0.2 - 10, textAlign: 'left'}}>
+      <Text style={{...styles.pair, ...styles.common, width: deviceWidth * 0.24 - 10, textAlign: 'left'}}>
         {currency.symbol}
       </Text>
-      <Text style={{...styles.bid, ...styles.common, width: deviceWidth * 0.25 - 10}}>
+      <Text style={{...styles.common, width: deviceWidth * 0.25 - 10}}>
         {currency.bid}
       </Text>
       <Text style={{
@@ -20,8 +20,8 @@ const QuoteView = ({currency, deviceWidth}) => {
         {currency.change}
       </Text>
       <Text style={{
-        ...styles.percent, ...styles.common,
-        width: deviceWidth * 0.2 - 10,
+        ...styles.common,
+        width: deviceWidth * 0.21 - 10,
         color: currency.change >= 0 ? 'green' : 'red'
       }}>
         {(currency.change / (currency.bid / 100)).toFixed(2)}%
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 20
   },
   common: {
     marginRight: 10,
