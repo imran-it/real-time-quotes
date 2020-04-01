@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import io from "socket.io-client";
 import { MainContext } from "../context/MainContext";
-import { FontAwesome, AntDesign, MaterialIcons } from '@expo/vector-icons';
+import QuoteView from "./QuoteView";
+
 const Quotes = () => {
-  const [state, setState] = useState();
   const {setData, EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, GOLD} = useContext(MainContext);
+  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - 20);
 
   useEffect(() => {
     const socket = io('https://qrtm1.ifxid.com:8443');
-
 
     socket.on('connect', () => {
       socket.emit('subscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
     });
 
     socket.on('quotes', (data) => {
-      setState(data.msg)
+      // setState(data.msg)
       setData(data.msg)
     });
 
@@ -25,31 +25,45 @@ const Quotes = () => {
         socket.emit('unsubscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
       })
     }
-  }, [state, EURUSD]);
+  });
+
+  useEffect(() => {
+    const update = () => {
+      const width = Dimensions.get('window').width - 20;
+      setDeviceWidth(width);
+    };
+
+    Dimensions.addEventListener('change', update);
+
+    return () => {
+      Dimensions.removeEventListener('change', update);
+    };
+  });
 
   return (
     <View style={styles.container}>
       <View style={styles.tableName}>
-        <Text style={styles.pair}>
-          {EURUSD.symbol}
+        <Text style={{...styles.pair, ...styles.common, width: deviceWidth * 0.2 - 10}}>
+          Pair
         </Text>
-        <Text style={styles.bid}>
-          {EURUSD.bid}
+        <Text style={{...styles.bid, ...styles.common, width: deviceWidth * 0.25 - 10}}>
+          Bid
         </Text>
-        <Text style={{...styles.change, color: EURUSD.change >= 0 ? 'green' : 'red'}}>
-          {EURUSD.change}
+        <Text style={{...styles.change, ...styles.common, width: deviceWidth * 0.25 - 10}}>
+          Change
         </Text>
-        <Text style={{...styles.percent, color: EURUSD.change >= 0 ? 'green' : 'red'}}>
-          {(EURUSD.change / (EURUSD.bid/100)).toFixed(3)}%
+        <Text style={{...styles.percent, ...styles.common, width: deviceWidth * 0.2 - 10}}>
+          %
         </Text>
+        <Text style={{width: deviceWidth * 0.1}}/>
       </View>
-      <Text>{JSON.stringify(EURUSD)}</Text>
-      <Text>{JSON.stringify(GBPUSD)}</Text>
-      <Text>{JSON.stringify(USDJPY)}</Text>
-      <Text>{JSON.stringify(USDCHF)}</Text>
-      <Text>{JSON.stringify(USDCAD)}</Text>
-      <Text>{JSON.stringify(AUDUSD)}</Text>
-      <Text>{JSON.stringify(GOLD)}</Text>
+      <QuoteView currency={EURUSD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={GBPUSD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={USDJPY} deviceWidth={deviceWidth}/>
+      <QuoteView currency={USDCHF} deviceWidth={deviceWidth}/>
+      <QuoteView currency={USDCAD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={AUDUSD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={GOLD} deviceWidth={deviceWidth}/>
     </View>
   )
 };
@@ -58,37 +72,31 @@ Quotes.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    padding: 10,
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    fontSize: 22
   },
   tableName: {
-    flex: 1,
     width: '100%',
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 10
+  },
+  common: {
+    marginRight: 10,
+    textAlign: 'center',
+    fontSize: 15
   },
   pair: {
-    width: 60,
     fontWeight: 'bold',
-    marginRight: 10
   },
-  bid: {
-    width: 50,
-    marginRight: 10
-  },
-  change: {
-    width: 70,
-    marginRight: 10
-  },
-  percent: {
-    width: 70,
-    marginRight: 10
-  },
-  indicator: {
-    width: 30,
+  arrows: {
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
