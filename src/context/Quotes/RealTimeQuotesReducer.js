@@ -32,7 +32,7 @@ const handlers = {
   DEFAULT: state => state,
 };
 
-export const MainReducer = (state, action) => {
+export const RealTimeQuotesReducer = (state, action) => {
   const handler = handlers[action.type] || handlers.DEFAULT;
   return handler(state, action.payload);
 };
