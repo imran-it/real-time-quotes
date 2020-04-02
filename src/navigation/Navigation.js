@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Quotes from "../components/Quotes/Quotes";
 import Colors from "../utils/Colors";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Dashboard from "../components/Dashboard/Dashboard";
+import PairInfo from "../components/Dashboard/PairInfo";
 
 const RealTimeQuotes = createStackNavigator();
 
@@ -14,6 +16,17 @@ function RealTimeQuotesScreen() {
     <RealTimeQuotes.Navigator>
       <RealTimeQuotes.Screen name="RealTimeQuotes" component={Quotes} options={stackOptions.RTQ}/>
     </RealTimeQuotes.Navigator>
+  );
+}
+
+const DashboardQuotes = createStackNavigator();
+
+function DashboardQuotesScreen() {
+  return (
+    <DashboardQuotes.Navigator>
+      <DashboardQuotes.Screen name="DashboardQuotes" component={Dashboard} options={stackOptions.DB}/>
+      <DashboardQuotes.Screen name="PairInfoQuotes" component={PairInfo} options={stackOptions.DB}/>
+    </DashboardQuotes.Navigator>
   );
 }
 
@@ -28,8 +41,13 @@ const stackOptions = {
   RTQ: {
     headerTitle: 'Real Time Quotes',
     ...defaultNavigationOptions,
+  },
+  DB: {
+    headerTitle: 'Dashboard',
+    ...defaultNavigationOptions,
   }
 };
+
 const Tab = createBottomTabNavigator();
 
 const Navigation = () => {
@@ -42,7 +60,7 @@ const Navigation = () => {
             if (route.name === 'Quotes') {
               return (
                 <MaterialCommunityIcons
-                  name={focused ? 'currency-btc' : 'currency-btc'}
+                  name={focused ? 'trending-up' : 'trending-up'}
                   size={30}
                   color={color}
                 />
@@ -58,6 +76,9 @@ const Navigation = () => {
         tabBarOptions={{
           activeTintColor: Platform.OS === 'ios' ? Colors.tabIconSelected : 'white',
           inactiveTintColor: Colors.tabIconDefault,
+          labelStyle: {
+            fontSize: 16
+          },
           style: {
             backgroundColor: Platform.OS === 'ios' ? 'white' : Colors.headerTitle,
             shadowColor: 'rgba(0, 0, 0, 0.24)',
@@ -71,7 +92,7 @@ const Navigation = () => {
         }}
       >
         <Tab.Screen name="Quotes" component={RealTimeQuotesScreen}/>
-        {/*<Tab.Screen name="Add Deck" component={AddDeckStackScreen} />*/}
+        <Tab.Screen name="Dashboard" component={DashboardQuotesScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )

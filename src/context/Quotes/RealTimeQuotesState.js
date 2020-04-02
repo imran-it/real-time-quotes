@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
-import { MainContext } from "./MainContext";
-import { MainReducer } from "./MainReducer";
+import { RealTimeQuotesContext } from "./RealTimeQuotesContext";
+import { RealTimeQuotesReducer } from "./RealTimeQuotesReducer";
 
-export const MainState = ({ children }) => {
+export const RealTimeQuotesState = ({ children }) => {
   const initialSate = {
     EURUSD: {},
     GBPUSD: {},
@@ -19,7 +19,7 @@ export const MainState = ({ children }) => {
     AUDHKD: {},
   };
 
-  const [state, dispatch] = useReducer(MainReducer, initialSate);
+  const [state, dispatch] = useReducer(RealTimeQuotesReducer, initialSate);
 
   const setData = (data) => {
     const quoteName = `CHANGE_${data.symbol}`
@@ -27,7 +27,7 @@ export const MainState = ({ children }) => {
   }
 
   return (
-    <MainContext.Provider
+    <RealTimeQuotesContext.Provider
       value={{
         EURUSD: state.EURUSD,
         GBPUSD: state.GBPUSD,
@@ -46,6 +46,6 @@ export const MainState = ({ children }) => {
       }}
     >
       {children}
-    </MainContext.Provider>
+    </RealTimeQuotesContext.Provider>
   );
 };

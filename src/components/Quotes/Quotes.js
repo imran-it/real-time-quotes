@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View, YellowBox } from 'react-native';
 import io from "socket.io-client";
-import { MainContext } from "../../context/Quotes/MainContext";
+import { RealTimeQuotesContext } from "../../context/Quotes/RealTimeQuotesContext";
 import QuoteView from "./QuoteView";
 
 const Quotes = () => {
   const {
     setData, EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, GOLD,
     AUDCAD, GBPCHF, GBPCAD, USDRUR, NZDDKK, AUDHKD
-  } = useContext(MainContext);
+  } = useContext(RealTimeQuotesContext);
   const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - 20);
 
   YellowBox.ignoreWarnings(['Remote debugger']);
@@ -60,7 +60,6 @@ const Quotes = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
         <View style={styles.tableName}>
           <Text style={{...styles.common, ...styles.bold, width: deviceWidth * 0.24 - 10, textAlign: 'left'}}> Pair </Text>
           <Text style={{...styles.common, ...styles.bold, width: deviceWidth * 0.25 - 10}}> Bid </Text>
@@ -68,6 +67,7 @@ const Quotes = () => {
           <Text style={{...styles.common, ...styles.bold, width: deviceWidth * 0.21 - 10}}> % </Text>
           <Text style={{width: deviceWidth * 0.03}}/>
         </View>
+      <ScrollView>
         <QuoteView currency={GOLD} deviceWidth={deviceWidth}/>
         <QuoteView currency={USDRUR} deviceWidth={deviceWidth}/>
         <QuoteView currency={EURUSD} deviceWidth={deviceWidth}/>
