@@ -1,37 +1,45 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, YellowBox } from 'react-native';
 import io from "socket.io-client";
 import { MainContext } from "../context/MainContext";
 import QuoteView from "./QuoteView";
 
 const Quotes = () => {
-  const {setData, EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, GOLD} = useContext(MainContext);
+  const {setData, EURUSD, GBPUSD, USDJPY, USDCHF, USDCAD, AUDUSD, GOLD,
+    AUDCAD, GBPCHF, GBPCAD, USDRUR, NZDDKK, AUDHKD} = useContext(MainContext);
   const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - 20);
 
+  YellowBox.ignoreWarnings(['Remote debugger']);
 
   useEffect(() => {
     let socket;
 
     try {
-      socket = io('https://qrtm1.ifxid.com:8443');
+      socket = io('https://qrtm1.ifxid.com:8443', {
+        forceNew: true,
+      });
     } catch (e) {
 
     }
 
     socket.on('connect', () => {
-      socket.emit('subscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
+      socket.emit('subscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD', 'AUDCAD', 'GBPCHF', 'GBPCAD', 'USDRUR', 'NZDDKK', 'AUDHKD'])
     });
 
     socket.on('quotes', (data) => {
       setData(data.msg)
     });
 
+    YellowBox.ignoreWarnings([
+      'Unrecognized WebSocket connection option(s) `agent`, `perMessageDeflate`, `pfx`, `key`, `passphrase`, `cert`, `ca`, `ciphers`, `rejectUnauthorized`. Did you mean to put these under `headers`?'
+    ]);
+
     return () => {
       socket.on('connect', () => {
-        socket.emit('unsubscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD'])
+        socket.emit('unsubscribe', ['EURUSD', 'GBPUSD', 'USDJPY', 'USDCHF', 'USDCAD', 'AUDUSD', 'GOLD', 'AUDCAD', 'GBPCHF', 'GBPCAD', 'USDRUR', 'NZDDKK', 'AUDHKD'])
       })
     }
-  });
+  }, []);
 
   useEffect(() => {
     const update = () => {
@@ -66,12 +74,18 @@ const Quotes = () => {
         <Text style={{width: deviceWidth * 0.03}}/>
       </View>
       <QuoteView currency={GOLD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={USDRUR} deviceWidth={deviceWidth}/>
       <QuoteView currency={EURUSD} deviceWidth={deviceWidth}/>
       <QuoteView currency={GBPUSD} deviceWidth={deviceWidth}/>
       <QuoteView currency={USDJPY} deviceWidth={deviceWidth}/>
       <QuoteView currency={USDCHF} deviceWidth={deviceWidth}/>
       <QuoteView currency={USDCAD} deviceWidth={deviceWidth}/>
       <QuoteView currency={AUDUSD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={AUDCAD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={GBPCHF} deviceWidth={deviceWidth}/>
+      <QuoteView currency={GBPCAD} deviceWidth={deviceWidth}/>
+      <QuoteView currency={NZDDKK} deviceWidth={deviceWidth}/>
+      <QuoteView currency={AUDHKD} deviceWidth={deviceWidth}/>
     </View>
   )
 };

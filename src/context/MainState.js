@@ -12,6 +12,12 @@ export const MainState = ({ children }) => {
     USDCAD: {},
     AUDUSD: {},
     GOLD: {},
+    AUDCAD: {},
+    GBPCHF: {},
+    GBPCAD: {},
+    USDRUR: {},
+    NZDDKK: {},
+    AUDHKD: {},
   };
 
   const [state, dispatch] = useReducer(MainReducer, initialSate);
@@ -32,6 +38,12 @@ export const MainState = ({ children }) => {
         USDCAD: state.USDCAD,
         AUDUSD: state.AUDUSD,
         GOLD: state.GOLD,
+        AUDCAD: state.AUDCAD,
+        GBPCHF: state.GBPCHF,
+        GBPCAD: state.GBPCAD,
+        USDRUR: state.USDRUR,
+        NZDDKK: state.NZDDKK,
+        AUDHKD: state.AUDHKD,
         setData
       }}
     >
