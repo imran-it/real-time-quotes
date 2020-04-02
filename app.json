@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "real-time-quotes",
+    "name": "Real-time quotes",
     "slug": "real-time-quotes",
+    "privacy": "public",
+    "description": "A simple app showing market quotes and their details",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +23,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fufylevdev.real-time-quotes",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.fufylevdev.real_time_quotes",
+      "versionCode": 1
     }
   }
 }
