@@ -1,5 +1,4 @@
 import React, { useReducer } from 'react';
-import {CHANGE_AUDUSD, CHANGE_EURUSD, CHANGE_GBPUSD, CHANGE_GOLD, CHANGE_USDCAD, CHANGE_USDCHF, CHANGE_USDJPY} from "./types";
 import { MainContext } from "./MainContext";
 import { MainReducer } from "./MainReducer";
 
@@ -21,7 +20,6 @@ export const MainState = ({ children }) => {
   };
 
   const [state, dispatch] = useReducer(MainReducer, initialSate);
-
 
   const setData = (data) => {
     const quoteName = `CHANGE_${data.symbol}`

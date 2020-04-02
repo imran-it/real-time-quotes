@@ -12,7 +12,7 @@ import {
   CHANGE_GBPCHF,
   CHANGE_NZDDKK,
   CHANGE_USDRUR
-} from "./types";
+} from "../types";
 
 
 const handlers = {
@@ -36,17 +36,3 @@ export const MainReducer = (state, action) => {
   const handler = handlers[action.type] || handlers.DEFAULT;
   return handler(state, action.payload);
 };
-
-
-// export const MainReducer = (state, action) => {
-//   switch (action.type) {
-//     case CHANGE_EURUSD:
-//       return {
-//         ...state,
-//         EURUSD: {...action.payload}
-//       };
-//
-//     default:
-//       return state;
-//   }
-// };
