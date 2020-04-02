@@ -1,24 +1,16 @@
-import React, { useContext } from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { THEME } from '../../utils/theme'
 import AppTextBold from '../custom_ui/AppTextBold'
-import {PairInfoContext} from "../../context/PairInfo/PairInfoContext";
+import Colors from "../../utils/Colors";
 
-const Quote = ({ quote, onOpen, init }) => {
-  const {
-    itemsPerPage,
-    startIndex,
-    lastIndex
-  } = useContext(PairInfoContext)
-
+const Quote = ({quote, onOpen}) => {
   return (
     <TouchableOpacity onPress={() => {
       onOpen(quote)
-      init({ startIndex: startIndex, lastIndex: lastIndex, itemsNumber: itemsPerPage })
     }}>
       <View style={styles.quote}>
-        <AppTextBold style={{ fontSize: 26 }}>{quote.symbol}</AppTextBold>
+        <AppTextBold style={{fontSize: 26}}>{quote.symbol}</AppTextBold>
       </View>
     </TouchableOpacity>
   )
@@ -31,7 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 15,
     borderWidth: 1,
-    borderColor: THEME.MAIN_COLOR,
+    borderColor: Colors.greyColor,
     borderRadius: 5,
     marginBottom: 10,
     flex: 1

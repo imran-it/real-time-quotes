@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
+import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,7 +14,10 @@ const RealTimeQuotes = createStackNavigator();
 function RealTimeQuotesScreen() {
   return (
     <RealTimeQuotes.Navigator>
-      <RealTimeQuotes.Screen name="RealTimeQuotes" component={Quotes} options={stackOptions.RTQ}/>
+      <RealTimeQuotes.Screen
+        name="RealTimeQuotes"
+        component={Quotes}
+        options={stackOptions.RTQ}/>
     </RealTimeQuotes.Navigator>
   );
 }
@@ -24,8 +27,15 @@ const DashboardQuotes = createStackNavigator();
 function DashboardQuotesScreen() {
   return (
     <DashboardQuotes.Navigator>
-      <DashboardQuotes.Screen name="DashboardQuotes" component={Dashboard} options={stackOptions.DB}/>
-      <DashboardQuotes.Screen name="PairInfoQuotes" component={PairInfo} options={stackOptions.DB}/>
+      <DashboardQuotes.Screen
+        name="DashboardQuotes"
+        component={Dashboard}
+        options={stackOptions.DB}/>
+      <DashboardQuotes.Screen
+        name="PairInfoQuotes"
+        component={PairInfo}
+        options={({route}) => ({...stackOptions.DB, title: route.params.title})}
+      />
     </DashboardQuotes.Navigator>
   );
 }
@@ -43,7 +53,7 @@ const stackOptions = {
     ...defaultNavigationOptions,
   },
   DB: {
-    headerTitle: 'Dashboard',
+    headerTitle: 'Insta Forex Quotes',
     ...defaultNavigationOptions,
   }
 };
@@ -77,7 +87,7 @@ const Navigation = () => {
           activeTintColor: Platform.OS === 'ios' ? Colors.tabIconSelected : 'white',
           inactiveTintColor: Colors.tabIconDefault,
           labelStyle: {
-            fontSize: 16
+            fontSize: 15
           },
           style: {
             backgroundColor: Platform.OS === 'ios' ? 'white' : Colors.headerTitle,
@@ -92,12 +102,10 @@ const Navigation = () => {
         }}
       >
         <Tab.Screen name="Quotes" component={RealTimeQuotesScreen}/>
-        <Tab.Screen name="Dashboard" component={DashboardQuotesScreen} />
+        <Tab.Screen name="Dashboard" component={DashboardQuotesScreen}/>
       </Tab.Navigator>
     </NavigationContainer>
   )
 };
-
-Navigation.propTypes = {};
 
 export default Navigation;

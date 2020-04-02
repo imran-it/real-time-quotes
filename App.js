@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { RealTimeQuotesState } from "./src/context/Quotes/RealTimeQuotesState";
 import Navigation from "./src/navigation/Navigation";
-import DashboardState from "./src/context/Dashboard/DashboardState";
 import PairInfoState from "./src/context/PairInfo/PairInfoState";
 
 async function loadApp() {
@@ -26,11 +25,9 @@ export default function App() {
 
   return (
     <RealTimeQuotesState>
-      <DashboardState>
-        <PairInfoState>
-          <Navigation/>
-        </PairInfoState>
-      </DashboardState>
+      <PairInfoState>
+        <Navigation/>
+      </PairInfoState>
     </RealTimeQuotesState>
   );
 }

@@ -11,10 +11,8 @@ export default {
   warningText: '#666804',
   noticeBackground: tintColor,
   noticeText: '#fff',
-  createButton: '#483D8B',
-  deleteButton: '#B22222',
-  quizButton: '#000',
   headerTitle: '#191970',
   correct: '#1d7f31',
   incorrect: '#B22222',
+  greyColor: '#3e3e3e',
 };
