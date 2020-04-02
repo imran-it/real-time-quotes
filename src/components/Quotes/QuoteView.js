@@ -24,7 +24,7 @@ const QuoteView = ({currency, deviceWidth}) => {
         width: deviceWidth * 0.21 - 10,
         color: currency.change >= 0 ? 'green' : 'red'
       }}>
-        {(currency.change / (currency.bid / 100)).toFixed(2)}%
+        {currency.change && (currency.change / (currency.bid / 100)).toFixed(2)}%
       </Text>
       <Text style={{...styles.arrows, width: deviceWidth * 0.03}}>
         <AntDesign name='caretup' size={10} color={currency.change >= 0 ? 'green' : 'black'}/>
