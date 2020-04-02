@@ -1,15 +1,15 @@
 import React, { useCallback, useContext, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import {DashboardContext} from "../../context/Dashboard/DashboardContext";
-import {PairInfoContext} from "../../context/PairInfo/PairInfoContext";
+import { PairInfoContext } from "../../context/PairInfo/PairInfoContext";
 import AppButton from "../custom_ui/AppButton";
 import { AntDesign } from '@expo/vector-icons';
-import { THEME } from "../../utils/theme";
 import AppTextBold from "../custom_ui/AppTextBold";
 import AppText from "../custom_ui/AppText";
+import Colors from "../../utils/Colors";
 
-const PairInfo = () => {
-  const {quoteId, quoteData, changeScreen} = useContext(DashboardContext);
+const PairInfo = ({route, navigation}) => {
+  const {quoteParams} = route.params;
+  const quoteId = quoteParams.symbol;
   const {quote, fetchQuote} = useContext(PairInfoContext);
 
   const loadQuote = useCallback(async () => {
@@ -24,19 +24,19 @@ const PairInfo = () => {
     <View style={styles.container}>
       <View style={styles.block}>
         <AppTextBold style={{fontSize: 26}}>Symbol:</AppTextBold>
-        <AppText style={{fontSize: 26}}>{quoteData['symbol']}</AppText>
+        <AppText style={{fontSize: 26}}>{quoteParams['symbol']}</AppText>
       </View>
       <View style={styles.block}>
         <AppTextBold style={{fontSize: 26}}>Description:</AppTextBold>
-        <AppText style={{fontSize: 26}}>{quoteData['description']}</AppText>
+        <AppText style={{fontSize: 26}}>{quoteParams['description']}</AppText>
       </View>
       <View style={styles.block}>
         <AppTextBold style={{fontSize: 26}}>Digits:</AppTextBold>
-        <AppText style={{fontSize: 26}}>{quoteData['digits']}</AppText>
+        <AppText style={{fontSize: 26}}>{quoteParams['digits']}</AppText>
       </View>
       <View style={styles.block}>
         <AppTextBold style={{fontSize: 26}}>Trade:</AppTextBold>
-        <AppText style={{fontSize: 26}}>{quoteData['trade']}</AppText>
+        <AppText style={{fontSize: 26}}>{quoteParams['trade']}</AppText>
       </View>
       {quote.length > 0 && (
         <View style={styles.data}>
@@ -59,7 +59,7 @@ const PairInfo = () => {
         </View>
       )}
       <View style={styles.button}>
-        <AppButton color={THEME.GREY_COLOR} onPress={() => changeScreen({"symbol": null})}>
+        <AppButton color={Colors.greyColor} onPress={() => navigation.goBack()}>
           <AntDesign name="back" size={40}/>
         </AppButton>
       </View>
@@ -69,7 +69,7 @@ const PairInfo = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     alignItems: 'center',
     paddingTop: 20
   },

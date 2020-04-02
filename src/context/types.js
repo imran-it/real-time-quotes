@@ -12,7 +12,6 @@ export const CHANGE_USDRUR = 'CHANGE_USDRUR';
 export const CHANGE_NZDDKK = 'CHANGE_NZDDKK';
 export const CHANGE_AUDHKD= 'CHANGE_AUDHKD';
 
-export const CHANGE_SCREEN = 'CHANGE_SCREEN';
 export const FETCH_QUOTES = 'FETCH_QUOTES';
 export const FETCH_QUOTE = 'FETCH_QUOTE';
 export const SHOW_LOADER = 'SHOW_LOADER';

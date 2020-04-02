@@ -1,16 +1,23 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Dimensions, FlatList, Platform, StyleSheet, TextInput, TouchableNativeFeedback, TouchableOpacity, View } from 'react-native';
-
-import {PairInfoContext} from "../../context/PairInfo/PairInfoContext";
-import {DashboardContext} from "../../context/Dashboard/DashboardContext";
-import {THEME} from '../../utils/theme'
+import {
+  Dimensions,
+  FlatList,
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import { PairInfoContext } from "../../context/PairInfo/PairInfoContext";
 import AppText from "../custom_ui/AppText";
 import AppButton from "../custom_ui/AppButton";
 import { AppLoader } from "../custom_ui/AppLoader";
 import Quote from "../Dashboard/Quote";
 import { AntDesign } from '@expo/vector-icons';
+import Colors from "../../utils/Colors";
 
-const Dashboard = () => {
+const Dashboard = ({navigation}) => {
   const {
     fetchQuotes,
     quotes,
@@ -21,13 +28,10 @@ const Dashboard = () => {
     paginate,
     startIndex,
     lastIndex,
-    itemsPerPage,
     init
   } = useContext(PairInfoContext);
 
-  const {changeScreen} = useContext(DashboardContext);
-
-  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2);
+  const [deviceWidth, setDeviceWidth] = useState(Dimensions.get('window').width - 20);
   const [deviceHeight, setDeviceHeight] = useState(Math.round(Dimensions.get('window').height));
   const [value, onChangeText] = useState('');
   const [itemsNumber, setItemsNumber] = useState(0);
@@ -47,7 +51,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const update = () => {
-      const width = Dimensions.get('window').width - THEME.PADDING_HORIZONTAL * 2;
+      const width = Dimensions.get('window').width - 20;
       setDeviceWidth(width);
       const height = Math.round(Dimensions.get('window').height);
       setDeviceHeight(height);
@@ -86,12 +90,16 @@ const Dashboard = () => {
     );
   }
 
+  const showPairInfo = (quote) => {
+    navigation.navigate('PairInfoQuotes', {quoteParams: quote, title: quote.symbol})
+  };
+
   let content = (
     <View style={{...styles.quotes, width: deviceWidth, height: deviceHeight - 330}}>
       <FlatList
         keyExtractor={item => item.symbol}
         data={quotesFiltered}
-        renderItem={({item}) => <Quote quote={item} onOpen={changeScreen} init={init}/>}
+        renderItem={({item}) => <Quote quote={item} onOpen={showPairInfo} init={init}/>}
       />
     </View>
   );
@@ -183,7 +191,7 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 20,
-    color: THEME.DANGER_COLOR,
+    color: Colors.incorrect,
     marginBottom: 20
   },
 });
