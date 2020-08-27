@@ -1,5 +1,5 @@
-import React, { useReducer } from 'react';
-import axios from 'axios'
+import React, { useReducer } from "react";
+import axios from "axios";
 import { PairInfoContext } from "./PairInfoContext";
 import { PairInfoReducer } from "./PairInfoReducer";
 import {
@@ -12,10 +12,10 @@ import {
   SHOW_LOADER,
   PAGINATE_NEXT,
   PAGINATE_PREV,
-  PAGINATE_INIT
-} from '../types';
+  PAGINATE_INIT,
+} from "../types";
 
-const PairInfoState = ({children}) => {
+const PairInfoState = ({ children }) => {
   const initialSate = {
     quotes: [],
     quote: [],
@@ -30,16 +30,18 @@ const PairInfoState = ({children}) => {
   const [state, dispatch] = useReducer(PairInfoReducer, initialSate);
 
   const fetchQuote = async (quoteId) => {
-    const query = quoteId.replace('#','%23');
+    const query = quoteId.replace("#", "%23");
     showLoader();
     clearError();
     try {
-      const response = await axios.get(`https://quotes.instaforex.com/api/quotesTick?q=${query}`);
+      const response = await axios.get(
+        `https://quotes.instaforex.com/api/quotesTick?q=${query}`
+      );
       const quote = response.data;
-      dispatch({type: FETCH_QUOTE, payload: quote});
+      dispatch({ type: FETCH_QUOTE, payload: quote });
     } catch (e) {
-      showError('Something went wrong, try again');
-      console.log('Error', e);
+      showError("Something went wrong, try again");
+      console.log("Error", e);
     } finally {
       hideLoader();
     }
@@ -49,40 +51,49 @@ const PairInfoState = ({children}) => {
     showLoader();
     clearError();
     try {
-      const response = await axios.get('https://quotes.instaforex.com/api/quotesList')
-      const quotes = response.data.quotesList.sort((a, b) => a.symbol > b.symbol ? 1 : -1);
-      dispatch({type: FETCH_QUOTES, payload: quotes});
+      const response = await axios.get(
+        "https://quotes.instaforex.com/api/quotesList"
+      );
+
+      const quotes = response.data.quotesList.sort((a, b) =>
+        a.symbol > b.symbol ? 1 : -1
+      );
+
+      dispatch({ type: FETCH_QUOTES, payload: quotes });
     } catch (e) {
-      showError('Something went wrong, try again');
-      console.log('Error', e);
+      showError("Something went wrong, try again");
+      console.log("Error O :::", e);
     } finally {
       hideLoader();
     }
   };
 
-  const filterQuotes = (text = '') => {
+  const filterQuotes = (text = "") => {
     if (text.length > 0) {
-      dispatch({type: FILTER_BY_SEARCH, payload: text})
+      dispatch({ type: FILTER_BY_SEARCH, payload: text });
     }
   };
 
-  const init = ({startIndex, lastIndex, itemsNumber}) => {
-    dispatch({type: PAGINATE_INIT, payload: {startIndex, lastIndex, itemsNumber}})
-  }
+  const init = ({ startIndex, lastIndex, itemsNumber }) => {
+    dispatch({
+      type: PAGINATE_INIT,
+      payload: { startIndex, lastIndex, itemsNumber },
+    });
+  };
 
   const paginate = (action) => {
-    if (action === 'next') {
-      dispatch({type: PAGINATE_NEXT})
+    if (action === "next") {
+      dispatch({ type: PAGINATE_NEXT });
     } else {
-      dispatch({type: PAGINATE_PREV})
+      dispatch({ type: PAGINATE_PREV });
     }
-  }
+  };
 
-  const showLoader = () => dispatch({type: SHOW_LOADER});
-  const hideLoader = () => dispatch({type: HIDE_LOADER});
+  const showLoader = () => dispatch({ type: SHOW_LOADER });
+  const hideLoader = () => dispatch({ type: HIDE_LOADER });
 
-  const showError = error => dispatch({type: SHOW_ERROR, error});
-  const clearError = () => dispatch({type: CLEAR_ERROR});
+  const showError = (error) => dispatch({ type: SHOW_ERROR, error });
+  const clearError = () => dispatch({ type: CLEAR_ERROR });
 
   return (
     <PairInfoContext.Provider
@@ -99,12 +110,12 @@ const PairInfoState = ({children}) => {
         fetchQuote,
         filterQuotes,
         paginate,
-        init
+        init,
       }}
     >
       {children}
     </PairInfoContext.Provider>
-  )
+  );
 };
 
 export default PairInfoState;
